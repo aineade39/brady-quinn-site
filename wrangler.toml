@@ -1,0 +1,6 @@
+name = "brady-quinn-site"
+compatibility_date = "2026-08-26"
+
+# HTML only. The interview video stays in R2 (Workers reject files over 25 MiB).
+[assets]
+directory = "./public"

@@ -1,7 +1,9 @@
-# Master recording (~225 MB). Deploy separately to Cloudflare Pages / R2.
+# Master recording (~225 MB). Serve from R2, not git or Worker deploy.
 *.webm
 *.mp4
 *.mov
 *.mkv
 
+.wrangler/
+node_modules/
 .DS_Store
