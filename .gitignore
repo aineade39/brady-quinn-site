@@ -1,0 +1,7 @@
+# Master recording (~225 MB). Deploy separately to Cloudflare Pages / R2.
+*.webm
+*.mp4
+*.mov
+*.mkv
+
+.DS_Store
