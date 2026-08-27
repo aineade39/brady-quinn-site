@@ -4,6 +4,7 @@
       "allowed": {
         "origins": [
           "https://brady-quinn.thelittlecat.app",
+          "https://media.brady-quinn.thelittlecat.app",
           "https://thelittlecat.app",
           "https://brady-quinn-site.joebrady113.workers.dev"
         ],

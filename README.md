@@ -12,7 +12,7 @@ Static site for the 1994 Brady oral-history interview summary.
 
 The video is in R2, not in this repo. HTML points at:
 
-`https://pub-d31d2e719ae043199649a742548c9902.r2.dev/1994-03-05_brady-interview.webm`
+`https://media.brady-quinn.thelittlecat.app/1994-03-05_brady-interview.webm`
 
 ### GitHub (already connected)
 
