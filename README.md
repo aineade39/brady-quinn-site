@@ -5,8 +5,8 @@ Static site for the 1994 Brady oral-history interview summary.
 ## Contents
 
 - `index.html` — landing page
-- `ramona-and-jim-brady-interview-summary.html` — narrative summary with video player and timestamp links
-- `1994-03-05_brady-interview.webm` — master recording (local / deploy artifact; not in git)
+- `ramona-and-jim-brady-interview-summary.html` — narrative summary with in-page player and timestamp seeks
+- `1994-03-05_brady-interview.webm` — master recording (R2 object; MP4/H.264 bytes; not in git)
 
 ## Deploy
 

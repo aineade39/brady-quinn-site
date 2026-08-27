@@ -88,6 +88,13 @@
       color: #4a2f6b;
     }
 
+    a:focus-visible,
+    button:focus-visible,
+    video:focus-visible {
+      outline: 2px solid var(--link);
+      outline-offset: 2px;
+    }
+
     .lede,
     .notice {
       font-size: 1rem;
@@ -140,17 +147,64 @@
       font-style: italic;
     }
 
-    .recording video {
-      display: block;
-      width: 100%;
-      max-height: 28rem;
-      background: #000;
+    #recording {
+      margin: 0 0 1.5rem;
     }
 
-    .recording figcaption {
+    #player-frame video {
+      display: block;
+      width: 100%;
+      height: auto;
+      background: #111;
+    }
+
+    .player-toolbar {
+      display: none;
+    }
+
+    #player-frame.is-docked {
+      position: fixed;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      z-index: 10;
+      padding: 0.5rem 1.25rem 0.75rem;
+      background: var(--bg);
+      border-top: 1px solid var(--border);
+    }
+
+    #player-frame.is-docked .player-toolbar {
+      display: flex;
+      justify-content: flex-end;
+      max-width: 46rem;
+      margin: 0 auto 0.35rem;
+    }
+
+    #player-frame.is-docked video {
+      max-width: 46rem;
+      max-height: 28vh;
+      margin: 0 auto;
+    }
+
+    #player-undock {
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+      font-size: 0.85rem;
+      color: var(--text);
+      background: var(--bg-soft);
+      border: 1px solid var(--border);
+      padding: 0.25rem 0.6rem;
+      cursor: pointer;
+    }
+
+    .recording-note {
       margin-top: 0.5rem;
       font-size: 0.92rem;
       color: var(--muted);
+    }
+
+    tr.is-current th,
+    tr.is-current td {
+      background: #e8eef4;
     }
 
     table {
@@ -223,7 +277,8 @@
         font-size: 0.85em;
       }
 
-      .recording {
+      #recording,
+      #player-frame {
         display: none;
       }
 
@@ -261,7 +316,7 @@
       <dt>HTML created</dt>
       <dd><time datetime="2026-08-25">25 August 2026</time></dd>
       <dt>Format</dt>
-      <dd>Self-contained HTML5; no scripts; no external stylesheets or fonts</dd>
+      <dd>Self-contained HTML5; optional inline enhancement for in-page seek; no external stylesheets, fonts, or CDNs</dd>
     </dl>
   </header>
 
@@ -287,14 +342,19 @@
 
     <section id="recording" class="recording" aria-labelledby="recording-heading">
       <h2 id="recording-heading">Interview recording</h2>
-      <figure>
-        <video id="interview" controls preload="metadata" width="720" src="https://media.brady-quinn.thelittlecat.app/1994-03-05_brady-interview.webm">
-          Your browser does not support embedded video. <a href="https://media.brady-quinn.thelittlecat.app/1994-03-05_brady-interview.webm">Download the recording</a>.
-        </video>
-        <figcaption>
-          <a href="https://media.brady-quinn.thelittlecat.app/1994-03-05_brady-interview.webm">https://media.brady-quinn.thelittlecat.app/1994-03-05_brady-interview.webm</a> — full interview (~2 hours). Timestamp links in the quotation table open this recording at the cited moment.
-        </figcaption>
-      </figure>
+      <p>Click a time in the quotation table to play that moment here. Without scripting, each time opens the recording at that offset.</p>
+      <div id="player-anchor">
+        <div id="player-frame">
+          <div class="player-toolbar">
+            <button type="button" id="player-undock" hidden>Return player to page</button>
+          </div>
+          <video id="interview" controls preload="metadata">
+            <source src="https://media.brady-quinn.thelittlecat.app/1994-03-05_brady-interview.webm" type="video/mp4">
+            Your browser does not support embedded video. <a href="https://media.brady-quinn.thelittlecat.app/1994-03-05_brady-interview.webm">Download the recording</a>.
+          </video>
+        </div>
+      </div>
+      <p class="recording-note"><a href="https://media.brady-quinn.thelittlecat.app/1994-03-05_brady-interview.webm">Download the full interview</a> (~2 hours). The file is MP4/H.264; the published name still ends in <code>.webm</code>.</p>
     </section>
 
     <article id="ramona" aria-labelledby="ramona-heading">
@@ -323,7 +383,7 @@
 
     <section id="quotations" aria-labelledby="quotations-heading">
       <h2 id="quotations-heading">Selected interview quotations</h2>
-      <p>All quotations retain the reviewed transcript's wording. A duration spanning more than one segment includes the small gaps between adjacent transcription segments. Click a timestamp to play the recording from that point.</p>
+      <p>All quotations retain the reviewed transcript's wording. A duration spanning more than one segment includes the small gaps between adjacent transcription segments. Click a time to play that moment in the recording on this page.</p>
       <table>
         <caption>Verbatim quotations cited to transcript segment identifiers</caption>
         <thead>
@@ -339,119 +399,119 @@
           <tr>
             <th scope="row">Ramona</th>
             <td><q>I was actually born at home, so I think I was born between Timberlake and Glen Cross.</q></td>
-            <td class="num"><a href="https://media.brady-quinn.thelittlecat.app/1994-03-05_brady-interview.webm#t=2721.5">0:45:21.500</a></td>
+            <td class="num"><a class="timestamp" href="https://media.brady-quinn.thelittlecat.app/1994-03-05_brady-interview.webm#t=2721.5" data-start="2721.5">0:45:21.500</a></td>
             <td class="num">4.780 s</td>
             <td><code>seg-0800</code></td>
           </tr>
           <tr>
             <th scope="row">Ramona</th>
             <td><q>When I left South Dakota, I was 10 years old.</q></td>
-            <td class="num"><a href="https://media.brady-quinn.thelittlecat.app/1994-03-05_brady-interview.webm#t=3174.318">0:52:54.318</a></td>
+            <td class="num"><a class="timestamp" href="https://media.brady-quinn.thelittlecat.app/1994-03-05_brady-interview.webm#t=3174.318" data-start="3174.318">0:52:54.318</a></td>
             <td class="num">2.600 s</td>
             <td><code>seg-0900</code></td>
           </tr>
           <tr>
             <th scope="row">Ramona</th>
             <td><q>And the crops didn't flourish. So three families of us came out from South Dakota in cars.</q></td>
-            <td class="num"><a href="https://media.brady-quinn.thelittlecat.app/1994-03-05_brady-interview.webm#t=3198.828">0:53:18.828</a></td>
+            <td class="num"><a class="timestamp" href="https://media.brady-quinn.thelittlecat.app/1994-03-05_brady-interview.webm#t=3198.828" data-start="3198.828">0:53:18.828</a></td>
             <td class="num">8.325 s</td>
             <td><code>seg-0906</code>–<code>seg-0907</code></td>
           </tr>
           <tr>
             <th scope="row">Ramona</th>
             <td><q>And that was everything we owned in that utility trailer in the back.</q></td>
-            <td class="num"><a href="https://media.brady-quinn.thelittlecat.app/1994-03-05_brady-interview.webm#t=3296.301">0:54:56.301</a></td>
+            <td class="num"><a class="timestamp" href="https://media.brady-quinn.thelittlecat.app/1994-03-05_brady-interview.webm#t=3296.301" data-start="3296.301">0:54:56.301</a></td>
             <td class="num">3.081 s</td>
             <td><code>seg-0928</code></td>
           </tr>
           <tr>
             <th scope="row">Ramona</th>
             <td><q>And, um, anyway, we lived for a week on five dollars.</q></td>
-            <td class="num"><a href="https://media.brady-quinn.thelittlecat.app/1994-03-05_brady-interview.webm#t=3397.048">0:56:37.048</a></td>
+            <td class="num"><a class="timestamp" href="https://media.brady-quinn.thelittlecat.app/1994-03-05_brady-interview.webm#t=3397.048" data-start="3397.048">0:56:37.048</a></td>
             <td class="num">3.561 s</td>
             <td><code>seg-0948</code></td>
           </tr>
           <tr>
             <th scope="row">Ramona</th>
             <td><q>And then they went over to Eastern Washington, all of us, and we lived in tents, and then the men picked apples for money.</q></td>
-            <td class="num"><a href="https://media.brady-quinn.thelittlecat.app/1994-03-05_brady-interview.webm#t=3518.993">0:58:38.993</a></td>
+            <td class="num"><a class="timestamp" href="https://media.brady-quinn.thelittlecat.app/1994-03-05_brady-interview.webm#t=3518.993" data-start="3518.993">0:58:38.993</a></td>
             <td class="num">10.624 s</td>
             <td><code>seg-0972</code></td>
           </tr>
           <tr>
             <th scope="row">Ramona</th>
             <td><q>Somewhere between them, decided to ask me, you know, to go to this fireman's ball that was coming up in Seattle.</q></td>
-            <td class="num"><a href="https://media.brady-quinn.thelittlecat.app/1994-03-05_brady-interview.webm#t=4956.904">1:22:36.904</a></td>
+            <td class="num"><a class="timestamp" href="https://media.brady-quinn.thelittlecat.app/1994-03-05_brady-interview.webm#t=4956.904" data-start="4956.904">1:22:36.904</a></td>
             <td class="num">7.362 s</td>
             <td><code>seg-1332</code></td>
           </tr>
           <tr>
             <th scope="row">Ramona</th>
             <td><q>But did you know from trials we grow?</q></td>
-            <td class="num"><a href="https://media.brady-quinn.thelittlecat.app/1994-03-05_brady-interview.webm#t=6870.732">1:54:30.732</a></td>
+            <td class="num"><a class="timestamp" href="https://media.brady-quinn.thelittlecat.app/1994-03-05_brady-interview.webm#t=6870.732" data-start="6870.732">1:54:30.732</a></td>
             <td class="num">2.040 s</td>
             <td><code>seg-1833</code></td>
           </tr>
           <tr>
             <th scope="row">Jim</th>
             <td><q>Well, I had it pretty nice, really.</q></td>
-            <td class="num"><a href="https://media.brady-quinn.thelittlecat.app/1994-03-05_brady-interview.webm#t=3757.706">1:02:37.706</a></td>
+            <td class="num"><a class="timestamp" href="https://media.brady-quinn.thelittlecat.app/1994-03-05_brady-interview.webm#t=3757.706" data-start="3757.706">1:02:37.706</a></td>
             <td class="num">1.701 s</td>
             <td><code>seg-1029</code></td>
           </tr>
           <tr>
             <th scope="row">Jim</th>
             <td><q>I mean, we lived in the north end of Tacoma then, and there were lots of woods around there. We could play in the woods.</q></td>
-            <td class="num"><a href="https://media.brady-quinn.thelittlecat.app/1994-03-05_brady-interview.webm#t=3759.427">1:02:39.427</a></td>
+            <td class="num"><a class="timestamp" href="https://media.brady-quinn.thelittlecat.app/1994-03-05_brady-interview.webm#t=3759.427" data-start="3759.427">1:02:39.427</a></td>
             <td class="num">7.764 s</td>
             <td><code>seg-1030</code>–<code>seg-1031</code></td>
           </tr>
           <tr>
             <th scope="row">Jim</th>
             <td><q>And there were times when they didn't get paid that they got what they called warrants. Instead of giving them money, they'd give this warrant saying that the warrant was worth so much money.</q></td>
-            <td class="num"><a href="https://media.brady-quinn.thelittlecat.app/1994-03-05_brady-interview.webm#t=4172.884">1:09:32.884</a></td>
+            <td class="num"><a class="timestamp" href="https://media.brady-quinn.thelittlecat.app/1994-03-05_brady-interview.webm#t=4172.884" data-start="4172.884">1:09:32.884</a></td>
             <td class="num">8.364 s</td>
             <td><code>seg-1150</code>–<code>seg-1151</code></td>
           </tr>
           <tr>
             <th scope="row">Jim</th>
             <td><q>No matter how old you are, if your dad and mother still living you're still young, and when they're gone, then you start aging to beat heck.</q></td>
-            <td class="num"><a href="https://media.brady-quinn.thelittlecat.app/1994-03-05_brady-interview.webm#t=4321.916">1:12:01.916</a></td>
+            <td class="num"><a class="timestamp" href="https://media.brady-quinn.thelittlecat.app/1994-03-05_brady-interview.webm#t=4321.916" data-start="4321.916">1:12:01.916</a></td>
             <td class="num">5.142 s</td>
             <td><code>seg-1199</code></td>
           </tr>
           <tr>
             <th scope="row">Jim</th>
             <td><q>I used to think he was a tough, hard guy, but I remember when his mother died, I remember him crying, and it really shocked me.</q></td>
-            <td class="num"><a href="https://media.brady-quinn.thelittlecat.app/1994-03-05_brady-interview.webm#t=4362.852">1:12:42.852</a></td>
+            <td class="num"><a class="timestamp" href="https://media.brady-quinn.thelittlecat.app/1994-03-05_brady-interview.webm#t=4362.852" data-start="4362.852">1:12:42.852</a></td>
             <td class="num">9.387 s</td>
             <td><code>seg-1211</code></td>
           </tr>
           <tr>
             <th scope="row">Jim</th>
             <td><q>It got hit three times, yeah.</q></td>
-            <td class="num"><a href="https://media.brady-quinn.thelittlecat.app/1994-03-05_brady-interview.webm#t=5434.718">1:30:34.718</a></td>
+            <td class="num"><a class="timestamp" href="https://media.brady-quinn.thelittlecat.app/1994-03-05_brady-interview.webm#t=5434.718" data-start="5434.718">1:30:34.718</a></td>
             <td class="num">2.300 s</td>
             <td><code>seg-1490</code></td>
           </tr>
           <tr>
             <th scope="row">Jim</th>
             <td><q>And then we got hit again in Okinawa, and that was, a suicide plane flew into our ship and killed about 60 people probably.</q></td>
-            <td class="num"><a href="https://media.brady-quinn.thelittlecat.app/1994-03-05_brady-interview.webm#t=5482.049">1:31:22.049</a></td>
+            <td class="num"><a class="timestamp" href="https://media.brady-quinn.thelittlecat.app/1994-03-05_brady-interview.webm#t=5482.049" data-start="5482.049">1:31:22.049</a></td>
             <td class="num">13.552 s</td>
             <td><code>seg-1498</code></td>
           </tr>
           <tr>
             <th scope="row">Jim</th>
             <td><q>But then after they secured me, then we had to go up and pick up the dead people and clean up the mess.</q></td>
-            <td class="num"><a href="https://media.brady-quinn.thelittlecat.app/1994-03-05_brady-interview.webm#t=5533.652">1:32:13.652</a></td>
+            <td class="num"><a class="timestamp" href="https://media.brady-quinn.thelittlecat.app/1994-03-05_brady-interview.webm#t=5533.652" data-start="5533.652">1:32:13.652</a></td>
             <td class="num">8.925 s</td>
             <td><code>seg-1513</code></td>
           </tr>
           <tr>
             <th scope="row">Jim</th>
             <td><q>Three years, two months, and 28 days, and about eight hours.</q></td>
-            <td class="num"><a href="https://media.brady-quinn.thelittlecat.app/1994-03-05_brady-interview.webm#t=5567.356">1:32:47.356</a></td>
+            <td class="num"><a class="timestamp" href="https://media.brady-quinn.thelittlecat.app/1994-03-05_brady-interview.webm#t=5567.356" data-start="5567.356">1:32:47.356</a></td>
             <td class="num">5.101 s</td>
             <td><code>seg-1525</code></td>
           </tr>
@@ -465,14 +525,14 @@
       <h2 id="provenance-heading">Provenance</h2>
       <p>This page is a presentation summary derived from the reviewed working transcript of interview <code>brady-1994-interview-001</code>.</p>
       <ul>
-        <li>Master recording on this site: <a href="https://media.brady-quinn.thelittlecat.app/1994-03-05_brady-interview.webm">https://media.brady-quinn.thelittlecat.app/1994-03-05_brady-interview.webm</a></li>
+        <li>Master recording on this site: <a href="https://media.brady-quinn.thelittlecat.app/1994-03-05_brady-interview.webm">https://media.brady-quinn.thelittlecat.app/1994-03-05_brady-interview.webm</a> (MP4/H.264; published name ends in <code>.webm</code>)</li>
         <li>Original filename: <em>Jim &amp; Ramona Brady, March 5, 1994, Interview with Ciara &amp; Gabrielle.webm</em></li>
       </ul>
       <dl class="document-meta">
         <dt>Recording SHA-256</dt>
         <dd><code>ab537ad5847015dd5c059411fac97b0bbc468351b1a92915df1d07a036b2b3a9</code></dd>
         <dt>Transcript SHA-256</dt>
-        <dd><code>13df3ccb503ad373fdd6badd70053104dd895f36b9cd8764821c7777fd188cb7</code></dd>
+        <dd><code>7161750088c28cd584a624df805652af50a88082523e5512253053ccc0bc99ff</code></dd>
       </dl>
       <p>Full transcript JSON, review files, and checksum manifests are maintained in the private genealogy archive and are not published on this site.</p>
     </section>
@@ -482,14 +542,146 @@
       <p>This file is intended for long-term readability without a live web stack.</p>
       <ul>
         <li>Self-contained: all presentation rules are embedded in this document.</li>
-        <li>No JavaScript, no external stylesheets, no web fonts, and no network dependencies.</li>
+        <li>Optional, minimal inline script for in-page seek. Without scripting, timestamp links open the recording at a media-fragment offset.</li>
+        <li>No external stylesheets, no web fonts, and no CDNs.</li>
         <li>UTF-8 text encoding and semantic HTML5 structure for machine and human reading.</li>
         <li>Dublin Core metadata in <code>&lt;meta&gt;</code> elements for cataloging systems.</li>
         <li>Quotations are tied to stable transcript segment identifiers rather than page numbers.</li>
-        <li>The interview recording is co-located in this site directory for playback and download.</li>
-        <li>Print styles hide the video player; timestamp links remain in the quotation table.</li>
+        <li>The interview recording is served from R2 at <code>media.brady-quinn.thelittlecat.app</code>.</li>
+        <li>Print styles hide the player and expose link targets so a paper copy remains navigable.</li>
       </ul>
     </section>
   </footer>
+  <script>
+    (function () {
+      var video = document.getElementById("interview");
+      var frame = document.getElementById("player-frame");
+      var anchor = document.getElementById("player-anchor");
+      var undock = document.getElementById("player-undock");
+      if (!video || !frame || !anchor || !undock) {
+        return;
+      }
+
+      var dismissed = false;
+
+      function dockPadding() {
+        document.body.style.paddingBottom = frame.classList.contains("is-docked")
+          ? frame.offsetHeight + 16 + "px"
+          : "";
+      }
+
+      function setDocked(on) {
+        frame.classList.toggle("is-docked", on);
+        undock.hidden = !on;
+        dockPadding();
+      }
+
+      function parseStart() {
+        var params = new URLSearchParams(window.location.search);
+        if (params.has("t")) {
+          return parseFloat(params.get("t"));
+        }
+        var hash = window.location.hash;
+        if (hash.indexOf("#t=") === 0) {
+          return parseFloat(hash.slice(3));
+        }
+        return NaN;
+      }
+
+      function setCurrent(link) {
+        var rows = document.querySelectorAll("#quotations tr.is-current");
+        for (var i = 0; i < rows.length; i += 1) {
+          rows[i].classList.remove("is-current");
+        }
+        if (link && link.closest) {
+          var row = link.closest("tr");
+          if (row) {
+            row.classList.add("is-current");
+          }
+        }
+      }
+
+      function whenReady(fn) {
+        if (video.readyState >= 1) {
+          fn();
+        } else {
+          video.addEventListener("loadedmetadata", fn, { once: true });
+        }
+      }
+
+      function seekTo(start, link, shouldPlay) {
+        setCurrent(link);
+        whenReady(function () {
+          function afterSeek() {
+            video.removeEventListener("seeked", afterSeek);
+            if (!shouldPlay) {
+              return;
+            }
+            var play = video.play();
+            if (play && play.catch && link) {
+              play.catch(function () {
+                window.location.assign(link.href);
+              });
+            }
+          }
+          if (Math.abs(video.currentTime - start) < 0.05) {
+            afterSeek();
+            return;
+          }
+          video.addEventListener("seeked", afterSeek);
+          video.currentTime = start;
+        });
+      }
+
+      if ("IntersectionObserver" in window) {
+        var observer = new IntersectionObserver(function (entries) {
+          var entry = entries[0];
+          if (!entry) {
+            return;
+          }
+          if (entry.isIntersecting) {
+            dismissed = false;
+            setDocked(false);
+          } else if (!dismissed) {
+            setDocked(true);
+          }
+        }, { threshold: 0 });
+        observer.observe(anchor);
+      }
+
+      undock.addEventListener("click", function () {
+        dismissed = true;
+        setDocked(false);
+      });
+
+      window.addEventListener("resize", dockPadding);
+
+      document.addEventListener("click", function (event) {
+        var link = event.target.closest ? event.target.closest("a.timestamp") : null;
+        if (!link) {
+          return;
+        }
+        var start = parseFloat(link.getAttribute("data-start"));
+        if (!isFinite(start)) {
+          return;
+        }
+        event.preventDefault();
+        dismissed = false;
+        setDocked(true);
+        if (history.replaceState) {
+          history.replaceState(null, "", "#t=" + start);
+        }
+        seekTo(start, link, true);
+      });
+
+      var initial = parseStart();
+      if (isFinite(initial)) {
+        var match = document.querySelector('a.timestamp[data-start="' + initial + '"]');
+        dismissed = false;
+        setDocked(true);
+        seekTo(initial, match, false);
+      }
+    }());
+  </script>
 </body>
 </html>
